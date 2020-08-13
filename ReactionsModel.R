@@ -1,5 +1,4 @@
-rm(list=ls())
-source('/Users/jaywarrick/Documents/Yin_Lab/Papers/VSV Modeling/Reactions.R')
+source('~/Documents/GitHub/R-Reactions/Reactions.R')
 library(deSolve)
 
 
@@ -58,37 +57,47 @@ Translate_Lt <- rxn
 
 
 
+# 
+# 
+# deg <- Reaction('Degradation')
+# setReactant(deg, name='C', stoich=1, order=1)
+# setProduct(deg, name='D', stoich=1)
+# print(deg)
+# 
+# VSV <- ODEModel('VSV')
+# addReaction(VSV, prod)
+# addReaction(VSV, deg)
+# addDE(VSV, dX='dB', eq='-1*k_Degradation*F')
+# addDE(VSV, dX='dE', eq='k_Production')
+# addDE(VSV, dX='dF', eq='0')
+# VSVFunc <- makeODEFunc(VSV)
 
-
-deg <- Reaction('Degradation')
-setReactant(deg, name='C', stoich=1, order=1)
-setProduct(deg, name='D', stoich=1)
-print(deg)
-
-VSV <- ODEModel('VSV')
-addReaction(VSV, prod)
-addReaction(VSV, deg)
-addDE(VSV, dX='dB', eq='-1*k_Degradation*F')
-addDE(VSV, dX='dE', eq='k_Production')
-addDE(VSV, dX='dF', eq='0')
-VSVFunc <- makeODEFunc(VSV)
+RxnRates <- function(t, X, params)
+{
+    with(as.list(c(X, params)), {
+        
+        
+        dA = -1*kon*A*B + koff*AB
+        dB = -1*kon*A*B + koff*AB
+        dAB = -koff*AB
+        
+        return(list(c( dA,dB,dAB )))
+    })
+}
 
 params <- list(
-    k_Degradation=1e-6, 
-    k_Production=1e-6
+    kon=1e5, 
+    koff=1e-4
 )
 
 Xini <- c(
-    A=10, 
-    B=10, 
-    C=0, 
-    D=0,
-    E=0,
-    F=10
+    A=C_Ltot, 
+    B=C_in, 
+    AB=0
 )
 
 times <- seq(0, 200, by = 1)
-out   <- ode(Xini, times, VSVFunc, params)
+out   <- ode(Xini, times, RxnRates, params)
 summary(out)
-dev.off()
+# dev.off()
 plot(out)

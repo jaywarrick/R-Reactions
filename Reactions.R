@@ -8,14 +8,14 @@ Reaction <- function(name)
 
 setClass('Reaction', 
          slots = c(name='character', reactants='data.frame', products='data.frame', params='character', baserate.eq='character', rates='data.frame'),
-         prototype = c(
-             name='',
-             reactants=data.frame(name=character(0), stoich=numeric(0), order=numeric(0), stringsAsFactors=FALSE),
-             products=data.frame(name=character(0), stoich=numeric(0), stringsAsFactors=FALSE),
-             params=character(0),
-             baserate.eq='',
-             rates=data.frame(name=character(0), stringsAsFactors=FALSE)
-         )
+         # prototype = c(
+         #     name='',
+         #     reactants=data.frame(name=character(0), stoich=numeric(0), order=numeric(0), stringsAsFactors=FALSE),
+         #     products=data.frame(name=character(0), stoich=numeric(0), stringsAsFactors=FALSE),
+         #     params=character(0),
+         #     baserate.eq='',
+         #     rates=data.frame(name=character(0), stringsAsFactors=FALSE)
+         # )
 )
 
 setGeneric('setParams',function(object='Reaction', params='character'){standardGeneric ('setParams')})
@@ -133,12 +133,12 @@ setMethod(f = 'makeRates', signature(object='Reaction'),
 
 setClass('ODEModel', 
          slots = c(name='character', eqs='data.frame', vars='character', preCalcCode='character'),
-         prototype = c(
-             name='',
-             eqs=data.frame(name=character(0), eq=character(0), stringsAsFactors=FALSE),
-             vars=character(0),
-             preCalcCode=''
-         )
+         # prototype = c(
+         #     name='',
+         #     eqs=data.frame(name=character(0), eq=character(0), stringsAsFactors=FALSE),
+         #     vars=character(0),
+         #     preCalcCode=''
+         # )
 )
 
 ODEModel <- function(name)
